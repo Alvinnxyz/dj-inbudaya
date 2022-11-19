@@ -17,6 +17,7 @@ class Category(models.Model):
     
     
 class BeritaKebudayaan(models.Model):
+    judul_berita = models.CharField(max_length=100, null=True, blank=True)
     name_berita = models.CharField(max_length=100)
     des_berita = models.TextField()
     date_berita = models.DateField()
@@ -25,6 +26,7 @@ class BeritaKebudayaan(models.Model):
     def __str__(self):
         return self.name_berita
 class DisekitarAnda(models.Model):
+    judul_disekitar = models.CharField(max_length=100, null=True, blank=True)
     name_disekitar = models.CharField(max_length=100)
     des_disekitar = models.TextField()
     date_disekitar = models.DateField()
@@ -34,6 +36,7 @@ class DisekitarAnda(models.Model):
         return self.name_disekitar
     
 class EventMendatang(models.Model):
+    judul_event = models.CharField(max_length=100, null=True, blank=True)
     name_event = models.CharField(max_length=100)
     des_event = models.TextField()
     date_event = models.DateField()

@@ -4,28 +4,6 @@ from .models import *
 from .serializers import *
 
 # Create your views here.
-
-class ProvinceView(generics.ListAPIView):
-    queryset = Province.objects.all()
-    serializer_class = ProvinceSerializer
-
-class CategoryView(generics.ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    
-class BeritaKebudayaanView(generics.ListAPIView):
-    queryset = BeritaKebudayaan.objects.all()
-    serializer_class = BeritaKebudayaanSerializer
-    
-class DisekitarAndaView(generics.ListAPIView):
-    queryset = DisekitarAnda.objects.all()
-    serializer_class = DisekitarAndaSerializer
-    
-class EventMendatangView(generics.ListAPIView):
-    queryset = EventMendatang.objects.all()
-    serializer_class = EventMendatangSerializer
-    
-    
 class HomeScreenView(generics.ListAPIView):
     permission_classes = []
     
