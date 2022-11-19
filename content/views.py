@@ -1,9 +1,8 @@
-from rest_framework import generics
+from rest_framework import generics, mixins
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
 
-# Create your views here.
 class HomeScreenView(generics.ListAPIView):
     permission_classes = []
     
@@ -28,3 +27,22 @@ class HomeCategoryView(generics.ListAPIView):
         serializers = CategorySerializer(category, many=True)
         
         return Response(serializers.data, status=200)
+    
+class BeritaView(generics.GenericAPIView, mixins.RetrieveModelMixin):
+    queryset = BeritaKebudayaan.objects.all()
+    serializer_class = BeritaKebudayaanSerializer
+    def get(self, request, pk=None):
+        if pk:
+            data_detail = BeritaKebudayaan.objects.get(id=pk)
+            data_semua = self.get_queryset().exclude(id=pk)
+            serializers = BeritaKebudayaanSerializer(data_semua, many=True)
+            
+            return Response({
+                "berita" : self.get_serializer(data_detail).data,
+                "artikel" : serializers.data
+            }, status=200)
+            # return self.retrieve(request)
+        else:
+            # return self.list(request)
+            return Response({'message': 'Not found'}, status=404)
+        

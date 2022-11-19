@@ -21,7 +21,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class BeritaKebudayaanSerializer(serializers.ModelSerializer):
     class Meta:
         model = BeritaKebudayaan
-        fields = '__all__'
+        fields = ('name_berita', 'date_berita', 'judul_berita', 'img_berita', 'des_berita')
         
 class DisekitarAndaSerializer(serializers.ModelSerializer):
     class Meta:

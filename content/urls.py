@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import HomeScreenView, HomeCategoryView
+from .views import BeritaView, HomeScreenView, HomeCategoryView
 
 urlpatterns = [
     path('home', HomeScreenView.as_view()),
     path('category', HomeCategoryView.as_view()),
+    path('berita/<pk>', BeritaView.as_view()),
+    
     # path('category/<str:cat>', ),
 ]
 
@@ -18,4 +20,5 @@ urlpatterns = [
 
 -- Menampilkan Berita Kebudayaan, Disekitar Anda, Event Mendatang (order by first)
 -- Menampilkan Gambar Semua dan Nama Kategori Budaya
+-- Menampilkan Judul, Tanggal, Deskripsi, Gambar Berita Kebudayaan dan List Berita Kebudayaan lainnya
 """
