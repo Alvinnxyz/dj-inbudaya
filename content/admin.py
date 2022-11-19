@@ -1,7 +1,4 @@
 from django.contrib import admin
-from .models import Province,Mainscreen,Kategori
-
+from .models import Province, Category, BeritaKebudayaan, DisekitarAnda, EventMendatang
 # Register your models here.
-admin.site.register(Province)
-admin.site.register(Mainscreen)
-admin.site.register(Kategori)
+admin.site.register([Province, Category, BeritaKebudayaan, DisekitarAnda, EventMendatang])
