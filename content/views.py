@@ -2,7 +2,7 @@ from rest_framework import generics, mixins
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
-
+from django.shortcuts import get_object_or_404
 class HomeScreenView(generics.ListAPIView):
     permission_classes = []
     
@@ -45,4 +45,44 @@ class BeritaView(generics.GenericAPIView, mixins.RetrieveModelMixin):
         else:
             # return self.list(request)
             return Response({'message': 'Not found'}, status=404)
+
+class BudayaView(generics.ListAPIView):
+    permission_classes = []
+    queryset = Category.objects.all()
+    def get (self, request, *args, **kwargs):
+        category = Category.objects.all()
+        serializers = CategorySerializer(category, many=True)
         
+        return Response(serializers.data, status=200)
+       
+class IsiBudayaView(generics.ListAPIView):
+    permission_classes = []
+    queryset = IsiBudaya.objects.all()
+    def get (self, request, *args, **kwargs):
+        category = IsiBudaya.objects.all()
+        serializers = IsiBudayaSerializer(category, many=True)
+        
+        return Response(serializers.data, status=200)
+
+class ListProvView(generics.ListAPIView):
+    permission_classes = []
+    serializer_class = ListProvSerializer
+    queryset = Category.objects.all()
+class ListBudayaView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, request, pv, cat):
+        pv_id = get_object_or_404(Province, slug=pv).id
+        queryset = get_object_or_404(Category, province=pv_id, slug=cat)
+        serializer = ListBudayaSerializer(queryset, context={'request': request})
+        
+        return Response(serializer.data, status=200)
+class ListBudayaView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, request, pv, cat):
+        pv_id = get_object_or_404(Province, slug=pv).id
+        queryset = get_object_or_404(Category, province=pv_id, slug=cat)
+        serializer = ListBudayaSerializer(queryset, context={'request': request})
+        
+        return Response(serializer.data, status=200)
