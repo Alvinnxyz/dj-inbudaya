@@ -30,9 +30,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['.herokuapp.com']
 
-django_heroku.settings(locals(), staticfiles=False)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+django_heroku.settings(locals())
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Application definition
 
 INSTALLED_APPS = [
