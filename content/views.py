@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from .models import *
 from .serializers import *
 from django.shortcuts import get_object_or_404
-class HomeScreenView(generics.ListAPIView):
+class HomeScreenView(generics.GenericAPIView):
     permission_classes = []
     
     def get (self, request, *args, **kwargs):
@@ -11,13 +11,12 @@ class HomeScreenView(generics.ListAPIView):
         disekitar = DisekitarAnda.objects.last()
         event = EventMendatang.objects.last()
         
-        data = {
-            'berita': BeritaKebudayaanSerializer(berita, many=False).data,
-            'disekitar': DisekitarAndaSerializer(disekitar, many=False).data,
-            'event': EventMendatangSerializer(event, many=False).data,
-        }
         
-        return Response(data, status=200)
+        data =[HomeBeritaRevision(berita, many=False).data,
+               HomeDisekitarRevision(disekitar, many=False).data,
+               HomeEventRevision(event, many=False).data,
+            ]
+        return Response({"home" : data}, status=200)
     
 class HomeCategoryView(generics.ListAPIView):
     permission_classes = []

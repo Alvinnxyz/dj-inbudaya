@@ -4,14 +4,6 @@ from content.models import Province, Category, BeritaKebudayaan, DisekitarAnda, 
 def build_absolute_uri(path:str):
     return f"http://127.0.0.1:8000{path}"
 
-# class ProvinceSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Province
-#         fields = '__all__'
-#     img_province = serializers.SerializerMethodField()
-
-#     def get_img_category(self,obj):
-#         return build_absolute_uri(f"/media/{obj.img_province}")
 class ProvinceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Province
@@ -82,22 +74,105 @@ class ListProvSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('name_category', 'list_province')
-
+class itemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IsiBudaya
+        fields = ('judul', 'img_isibudaya', 'des_isibudaya')
 class ListBudayaSerializer(serializers.ModelSerializer):
     province = serializers.SerializerMethodField()
-    # list_budaya = serializers.SerializerMethodField()
+    # list_budaya = itemSerializer(many=True)
+    list_budaya = serializers.SerializerMethodField()
 
     def get_province(self, obj):
         return obj.province.name_province
-
-    # def get_list_budaya(self, obj):
-    #     data = IsiBudaya.objects.filter(province=obj.id)
-    #     return [
-    #         {
-    #             "judul" : o.judul,
-    #             "img_isibudaya" : o.img_isibudaya
-    #         } for o in data
-    #     ]
+    
+    def get_list_budaya(self, obj):
+        data = IsiBudaya.objects.filter(category=obj)
+        return itemSerializer(data, many=True).data
     class Meta:
         model = Category
-        fields = ('name_category', 'province')
+        fields = ('name_category', 'province', 'list_budaya')
+        
+        
+"""
+{
+    'img_url': "sdgafjhbasdhjfb",
+    "date": "2021-09-09",
+    'deskripsi': 'Ini Judul',
+    'main_title': 'Ini Judul Utama',
+  },
+  {
+    'img_url': "sdgafjhbasdhjfb",
+    "date": "2021-09-09",
+    'deskripsi': 'Ini Judul',
+    'main_title': 'Ini Judul Utama',
+  },
+  {
+    'img_url': "sdgafjhbasdhjfb",
+    "date": "2021-09-09",
+    'deskripsi': 'Ini Judul',
+    'main_title': 'Ini Judul Utama',
+  }
+"""
+class HomeBeritaRevision(serializers.ModelSerializer):
+    img_url = serializers.SerializerMethodField()
+    date = serializers.SerializerMethodField()
+    deskripsi = serializers.SerializerMethodField()
+    main_title = serializers.SerializerMethodField()
+    
+    def get_img_url(self, obj):
+        return build_absolute_uri(f"/media/{obj.img_berita}")
+    
+    def get_deskripsi(self, obj):
+        return obj.des_berita
+    
+    def get_main_title(self, obj):
+        return obj.name_berita
+    
+    def get_date(self, obj):
+        return obj.date_berita.strftime("%d %B %Y, %H:%M")
+    class Meta:
+        model = BeritaKebudayaan
+        fields = ('img_url', 'date', 'deskripsi', 'main_title')
+        
+class HomeDisekitarRevision(serializers.ModelSerializer):
+    img_url = serializers.SerializerMethodField()
+    date = serializers.SerializerMethodField()
+    deskripsi = serializers.SerializerMethodField()
+    main_title = serializers.SerializerMethodField()
+    
+    def get_img_url(self, obj):
+        return build_absolute_uri(f"/media/{obj.img_disekitar}")
+    
+    def get_deskripsi(self, obj):
+        return obj.judul_disekitar
+    
+    def get_main_title(self, obj):
+        return obj.name_disekitar
+    
+    def get_date(self, obj):
+        return obj.date_disekitar.strftime("%d %B %Y, %H:%M")
+    class Meta:
+        model = DisekitarAnda
+        fields = ('img_url', 'date', 'deskripsi', 'main_title')
+
+class HomeEventRevision(serializers.ModelSerializer):
+    img_url = serializers.SerializerMethodField()
+    date = serializers.SerializerMethodField()
+    deskripsi = serializers.SerializerMethodField()
+    main_title = serializers.SerializerMethodField()
+    
+    def get_img_url(self, obj):
+        return build_absolute_uri(f"/media/{obj.img_event}")
+    
+    def get_deskripsi(self, obj):
+        return obj.des_event
+    
+    def get_main_title(self, obj):
+        return obj.name_event
+    
+    def get_date(self, obj):
+        return obj.date_event.strftime("%d %B %Y, %H:%M")
+    class Meta:
+        model = EventMendatang
+        fields = ('img_url', 'date', 'deskripsi', 'main_title')
